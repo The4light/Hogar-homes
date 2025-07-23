@@ -7,15 +7,48 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
-        <div class="column">
-            <h1>Hogar Homes </h1>
-            <p style="font-weight: 500;">Admin Panel</p>
+     <div class="header">
+        <!-- Logo and Title -->
+        <div class="logo-container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                <path d="M10 6h4"></path>
+                <path d="M10 10h4"></path>
+                <path d="M10 14h4"></path>
+                <path d="M10 18h4"></path>
+            </svg>
+            <div class="logo-text">
+                <h1>Hogar Homes</h1>
+                <p style="font-weight: 500;">Admin Panel</p>
+            </div>
         </div>
-        <!-- Place this after the dark mode toggle button in your .header div -->
-        <a href="property-details.html" class="back-to-listings-btn" aria-label="Back to Listings">Back to Listings</a>
-        <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <!-- Desktop Navigation -->
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Homepage</a>
+                <a href="property-details.html" class="nav-link">Listings</a>
+            </nav>
+
+            <!-- Dark Mode Toggle -->
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+
+            <!-- Hamburger Menu -->
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="nav-link">Homepage</a>
+        <a href="property-details.html" class="nav-link">Listings</a>
     </div>
 
     <div class="container">
@@ -99,6 +132,31 @@
             </div>
         </div>
     </div>
+    <script>
+        // Toggle mobile menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Toggle dark mode (you can keep your existing dark mode logic)
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            darkModeToggle.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-controls') && !e.target.closest('.mobile-menu')) {
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
 <script src="script.js"></script>
 </body>
 </html>

@@ -12,12 +12,12 @@
             overflow-x: hidden;
         }
 
-        .header {
-            background: #232526;
-            color: #fff;
-            display:flex;
-            gap: 1.1rem;
+          .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 15px 30px;
+            background: #232526;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: fixed;
             top: 0;
@@ -25,22 +25,51 @@
             right: 0;
             z-index: 1000;
         }
-        .column{
-            display:flex;
-            flex-direction: column;
-            
-        }
-        .header h1 {
-            font-size: 1.8em;
-            font-weight: 600;
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
         }
 
-        .header p {
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8em;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logo-text p {
             opacity: 0.9;
             font-size: 0.9em;
             margin-top: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .back-to-listings-btn {
+
+        /* Navigation Controls */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-link {
             background: #232526;
             color: #fff;
             border: none;
@@ -49,41 +78,145 @@
             font-size: 1em;
             font-weight: 600;
             text-decoration: none;
-            margin-left: 12px;
-            position: absolute;
-            right: 70px; /* adjust if needed, so it doesn't overlap the dark mode toggle */
-            top: 18px;
-            transition: background 0.2s, color 0.2s;
-            z-index: 1100;
+            transition: all 0.2s;
+            white-space: nowrap;
         }
-        .back-to-listings-btn:hover {
+
+        .nav-link:hover {
             background: #444;
             color: #ffd700;
         }
-        body.light-mode .back-to-listings-btn {
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+            transition: all 0.2s;
+        }
+
+        .dark-mode-toggle:hover {
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: #fff;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: #232526;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 999;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        /* Light Mode Styles */
+        body.light-mode {
+            background: #f5f6fa;
+            color: #232526;
+        }
+
+        body.light-mode .header,
+        body.light-mode .mobile-menu {
             background: #fff;
             color: #232526;
         }
-        body.light-mode .back-to-listings-btn:hover {
+
+        body.light-mode .nav-link {
+            background: #fff;
+            color: #232526;
+        }
+
+        body.light-mode .nav-link:hover {
             background: #e0e0e0;
             color: #295ead;
         }
-        /*dark mode toggle button */
-            .dark-mode-toggle {
-                background: transparent;
-                border: none;
-                color: #fff;
+
+        body.light-mode .dark-mode-toggle {
+            color: #232526;
+        }
+
+        body.light-mode .hamburger span {
+            background: #232526;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .logo-text h1 {
                 font-size: 1.5em;
-                cursor: pointer;
-                position: absolute;
-                right: 30px;
-                top: 18px;
-                transition: color 0.3s;
-                z-index: 1100;
             }
-            .dark-mode-toggle:hover {
-                color: #ffd700;
+
+            .nav-link {
+                padding: 10px 15px;
+                font-size: 0.9em;
             }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 12px 15px;
+            }
+
+            .logo-text h1 {
+                font-size: 1.3em;
+            }
+
+            .logo-container {
+                gap: 10px;
+            }
+
+            .logo-container svg {
+                width: 30px;
+                height: 40px;
+            }
+        }
 
         /* Light mode overrides */
             body.light-mode {

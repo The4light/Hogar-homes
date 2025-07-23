@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Hogar Homes Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .logo svg {
+            color: #667eea;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input:invalid {
+            border-color: #e74c3c;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-home {
+            text-align: center;
+        }
+
+        .back-home a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-home a:hover {
+            color: #764ba2;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #fcc;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #393;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #cfc;
+            display: none;
+        }
+
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        body.dark-mode .login-container {
+            background: rgba(35, 37, 38, 0.95);
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .logo h1,
+        body.dark-mode .login-title {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .login-subtitle,
+        body.dark-mode .form-group label {
+            color: #b0b3b8;
+        }
+
+        body.dark-mode .form-group input {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-group input:focus {
+            border-color: #667eea;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 2rem 1.5rem;
+                max-width: 100%;
+            }
+
+            .logo h1 {
+                font-size: 1.6rem;
+            }
+
+            .login-title {
+                font-size: 1.5rem;
+            }
+
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .logo h1 {
+                font-size: 1.4rem;
+            }
+
+            .login-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                    <path d="M10 6h4"></path>
+                    <path d="M10 10h4"></path>
+                    <path d="M10 14h4"></path>
+                    <path d="M10 18h4"></path>
+                </svg>
+                <h1>Hogar Homes</h1>
+            </div>
+            <p>Premium Real Estate Platform</p>
+        </div>
+
+        <div class="login-title">Admin Login</div>
+        <div class="login-subtitle">Access your property management dashboard</div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                Login to Dashboard
+            </button>
+        </form>
+
+        <div class="back-home">
+            <a href="index.html">← Back to Homepage</a>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode functionality
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            const toggle = document.querySelector('.dark-mode-toggle');
+            
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                toggle.textContent = '🌞';
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                document.body.classList.remove('dark-mode');
+                toggle.textContent = '🌙';
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
+
+        // Initialize dark mode on page load
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.dark-mode-toggle').textContent = '🌞';
+        }
+
+        // Login form functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Hide previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Simple validation (you can replace this with actual authentication)
+            if (username === 'admin' && password === 'admin123') {
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Logging in...';
+                
+                successMessage.textContent = 'Login successful! Redirecting to dashboard...';
+                successMessage.style.display = 'block';
+                
+                // Simulate loading and redirect
+                setTimeout(() => {
+                    // Store login status
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('loginTime', new Date().getTime());
+                    
+                    // Redirect to admin dashboard
+                    window.location.href = 'admin-dashboard.html';
+                }, 1500);
+            } else {
+                errorMessage.textContent = 'Invalid username or password. Try admin/admin123';
+                errorMessage.style.display = 'block';
+                
+                // Reset form
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+
+        // Add some interactive effects
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add floating animation to container
+        const container = document.querySelector('.login-container');
+        let floatDirection = 1;
+        
+        setInterval(() => {
+            const currentTransform = container.style.transform || 'translateY(0px)';
+            const currentY = parseFloat(currentTransform.match(/translateY\(([^)]+)\)/)?.[1] || '0');
+            
+            if (currentY >= 10) floatDirection = -1;
+            if (currentY <= -10) floatDirection = 1;
+            
+            container.style.transform = `translateY(${currentY + (0.5 * floatDirection)}px)`;
+        }, 100);
+    </script>
+</body>
+</html>
