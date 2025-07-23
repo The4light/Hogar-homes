@@ -233,3 +233,8 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Cloudinary enabled: ${!!process.env.CLOUDINARY_CLOUD_NAME}`);
 });
+
+
+app.get('/', (req, res) => {
+  res.send('🚀 Hogar Homes API is live!');
+});
