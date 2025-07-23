@@ -5,6 +5,9 @@ let currentModalIndex = 0;
 let selectedFiles = [];
 let imageDescriptions = {};
 
+// API Configuration - UPDATE THIS TO YOUR RENDER URL
+const API_BASE_URL = 'https://hogar-homes-2.onrender.com';
+
 // DOM elements
 const fileInput = document.getElementById('fileInput');
 const uploadArea = document.getElementById('uploadArea');
@@ -144,8 +147,8 @@ async function handlePropertySubmit(e) {
             }))
         };
 
-        // Save to backend (no change here)
-        const response = await fetch('http://localhost:3001/api/properties', {
+        // UPDATED: Use Render backend URL
+        const response = await fetch(`${API_BASE_URL}/api/properties`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -184,7 +187,8 @@ async function uploadImages() {
     });
 
     try {
-        const response = await fetch('http://localhost:3001/api/upload', {
+        // UPDATED: Use Render backend URL
+        const response = await fetch(`${API_BASE_URL}/api/upload`, {
             method: 'POST',
             body: formData
         });
@@ -252,7 +256,6 @@ function displayProperty(property) {
     propertyGrid.appendChild(propertyCard);
 }
 
-
 function editProperty(id) {
     const property = properties.find(p => p._id === id);
     if (!property) return;
@@ -277,7 +280,8 @@ function editProperty(id) {
 async function deleteProperty(id) {
     if (confirm('Are you sure you want to delete this property?')) {
         try {
-            const response = await fetch(`http://localhost:3001/api/properties/${id}`, {
+            // UPDATED: Use Render backend URL
+            const response = await fetch(`${API_BASE_URL}/api/properties/${id}`, {
                 method: 'DELETE'
             });
             
@@ -395,7 +399,6 @@ function navigateModal(direction) {
     }
 }
 
-
 function preloadImages(property) {
     // Preload next few images for better user experience
     if (property.images && property.images.length > 1) {
@@ -417,7 +420,8 @@ async function fetchProperties() {
     try {
         showLoadingState();
         
-        const response = await fetch('http://localhost:3001/api/properties');
+        // UPDATED: Use Render backend URL
+        const response = await fetch(`${API_BASE_URL}/api/properties`);
         if (!response.ok) throw new Error('Failed to fetch properties');
         
         properties = await response.json();
