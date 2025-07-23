@@ -25,9 +25,6 @@ async function fetchProperties() {
     } catch (error) {
         console.error("Error loading properties:", error);
         showErrorState();
-        
-        // Remove localStorage fallback since we're using a proper backend
-        // The localStorage fallback was causing confusion between local and remote data
     }
 }
 
@@ -82,130 +79,129 @@ function displayProperties() {
             description: 'No image available'
         };
         
-     propertyCard.innerHTML = `
-    <div class="property-image-container" onclick="openModal('${property._id}', 0)">
-        <img src="${mainImage.thumbnailUrl || mainImage.url}" alt="${mainImage.description}" 
-             class="property-image"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGN0ZBIi8+CjxwYXRoIGQ9Ik0xMjUgNzVMMTUwIDEwMEwxNzUgNzVMMTg3LjUgODcuNUwxNzUgMTAwTDE1MCA3NUwxMjUgMTAwTDExMi41IDg3LjVMMTI1IDc1WiIgZmlsbD0iIzdGOEM4RCIvPgo8dGV4dCB4PSIxNTAiIHk9IjEzMCIgZmlsbD0iIzdGOEM4RCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';">
-        ${property.images && property.images.length > 1 ? `<div class="image-counter">1/${property.images.length}</div>` : ''}
-    </div>
-    <div class="property-info">
-        <h3 class="property-title">${property.title || 'No title'}</h3>
-        <div class="property-details">
-            <div class="property-price">${property.price || 'Price not available'}</div>
-            <div class="property-location">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                ${property.location || 'Location not specified'}
+        propertyCard.innerHTML = `
+            <div class="property-image-container" onclick="openModal('${property._id}', 0)">
+                <img src="${mainImage.thumbnailUrl || mainImage.url}" alt="${mainImage.description}" 
+                     class="property-image"
+                     loading="lazy"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGN0ZBIi8+CjxwYXRoIGQ9Ik0xMjUgNzVMMTUwIDEwMEwxNzUgNzVMMTg3LjUgODcuNUwxNzUgMTAwTDE1MCA3NUwxMjUgMTAwTDExMi41IDg3LjVMMTI1IDc1WiIgZmlsbD0iIzdGOEM4RCIvPgo8dGV4dCB4PSIxNTAiIHk9IjEzMCIgZmlsbD0iIzdGOEM4RCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';">
+                ${property.images && property.images.length > 1 ? `<div class="image-counter">1/${property.images.length}</div>` : ''}
             </div>
-        </div>
-        <p class="property-description">${property.description || 'No description available'}</p>
-        <div class="property-meta">
-            <span>• ${property.bedrooms ?? 'N/A'} bed${property.bedrooms == 1 ? '' : 's'}</span>
-            <span> • ${property.bathrooms ?? 'N/A'} bath${property.bathrooms == 1 ? '' : 's'}</span>
-            <span>• ${property.squareFeet ?? 'N/A'} sq ft</span>
-        </div>
-        <a href="property-contact.html?id=${property._id}" class="contact-btn">Contact Agent</a>
-    </div>
-`;
+            <div class="property-info">
+                <h3 class="property-title">${property.title || 'No title'}</h3>
+                <div class="property-details">
+                    <div class="property-price">${property.price || 'Price not available'}</div>
+                    <div class="property-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        ${property.location || 'Location not specified'}
+                    </div>
+                </div>
+                <p class="property-description">${property.description || 'No description available'}</p>
+                <div class="property-meta">
+                    <span>• ${property.bedrooms ?? 'N/A'} bed${property.bedrooms == 1 ? '' : 's'}</span>
+                    <span> • ${property.bathrooms ?? 'N/A'} bath${property.bathrooms == 1 ? '' : 's'}</span>
+                    <span>• ${property.squareFeet ?? 'N/A'} sq ft</span>
+                </div>
+                <a href="property-contact.html?id=${property._id}" class="contact-btn">Contact Agent</a>
+            </div>
+        `;
         propertyGrid.appendChild(propertyCard);
     });
 }
 
-// Modal functions
+// Modal functions - Updated to match property-contact.html style
 function openModal(propertyId, imageIndex) {
     currentModalProperty = properties.find(p => p._id === propertyId);
     if (!currentModalProperty || !currentModalProperty.images || currentModalProperty.images.length === 0) return;
     
     currentModalIndex = imageIndex;
     
-    const modal = document.createElement('div');
-    modal.className = 'property-modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div class="modal-image-container">
-                <img src="${currentModalProperty.images[currentModalIndex].url}" 
-                     alt="${currentModalProperty.images[currentModalIndex].description}"
-                     loading="lazy">
-                <div class="modal-image-info">
-                    <span class="image-counter">${currentModalIndex + 1}/${currentModalProperty.images.length}</span>
-                    <p>${currentModalProperty.images[currentModalIndex].description}</p>
-                </div>
-            </div>
-            ${currentModalProperty.images.length > 1 ? `
-                <button class="modal-nav prev" onclick="navigateModal(-1)">❮</button>
-                <button class="modal-nav next" onclick="navigateModal(1)">❯</button>
-                <div class="modal-thumbnails">
-                    ${currentModalProperty.images.map((img, idx) => `
-                        <img src="${img.thumbnailUrl || img.url}" 
-                             class="${idx === currentModalIndex ? 'active' : ''}"
-                             onclick="jumpToModalImage(${idx})"
-                             loading="lazy">
-                    `).join('')}
-                </div>
-            ` : ''}
-        </div>
-    `;
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalIndicators = document.getElementById('modalIndicators');
     
-    document.body.appendChild(modal);
+    // Update modal image and description
+    modalImage.src = currentModalProperty.images[currentModalIndex].url;
+    modalImage.alt = currentModalProperty.images[currentModalIndex].description || 'Property image';
+    modalDescription.textContent = currentModalProperty.images[currentModalIndex].description || '';
+    
+    // Update indicators
+    modalIndicators.innerHTML = '';
+    if (currentModalProperty.images.length > 1) {
+        currentModalProperty.images.forEach((img, index) => {
+            const indicator = document.createElement('div');
+            indicator.className = `modal-indicator ${index === currentModalIndex ? 'active' : ''}`;
+            indicator.onclick = () => changeModalImage(index - currentModalIndex);
+            modalIndicators.appendChild(indicator);
+        });
+    }
+    
+    // Show/hide navigation buttons based on image count
+    const prevBtn = modal.querySelector('.modal-prev');
+    const nextBtn = modal.querySelector('.modal-next');
+    if (currentModalProperty.images.length > 1) {
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+    } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }
+    
+    modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    const modal = document.querySelector('.property-modal');
-    if (modal) {
-        document.body.removeChild(modal);
-        document.body.style.overflow = '';
-    }
+    const modal = document.getElementById('imageModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
     currentModalProperty = null;
 }
 
-function navigateModal(direction) {
-    if (!currentModalProperty) return;
+function changeModalImage(direction) {
+    if (!currentModalProperty?.images) return;
     
-    currentModalIndex += direction;
+    let newIndex = currentModalIndex + direction;
+    const imagesLength = currentModalProperty.images.length;
     
-    if (currentModalIndex < 0) {
-        currentModalIndex = currentModalProperty.images.length - 1;
-    } else if (currentModalIndex >= currentModalProperty.images.length) {
-        currentModalIndex = 0;
+    if (newIndex < 0) {
+        newIndex = imagesLength - 1;
+    } else if (newIndex >= imagesLength) {
+        newIndex = 0;
     }
     
-    const modal = document.querySelector('.property-modal');
-    if (modal) {
-        const currentImage = currentModalProperty.images[currentModalIndex];
-        modal.querySelector('.modal-image-container img').src = currentImage.url;
-        modal.querySelector('.modal-image-container img').alt = currentImage.description;
-        modal.querySelector('.image-counter').textContent = 
-            `${currentModalIndex + 1}/${currentModalProperty.images.length}`;
-        modal.querySelector('.modal-image-info p').textContent = currentImage.description;
-            
-        modal.querySelectorAll('.modal-thumbnails img').forEach((img, idx) => {
-            img.classList.toggle('active', idx === currentModalIndex);
-        });
-    }
-}
-
-function jumpToModalImage(index) {
-    if (!currentModalProperty || index < 0 || index >= currentModalProperty.images.length) return;
+    currentModalIndex = newIndex;
     
-    currentModalIndex = index;
-    navigateModal(0);
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalIndicators = document.getElementById('modalIndicators');
+    
+    // Update image and description
+    modalImage.src = currentModalProperty.images[currentModalIndex].url;
+    modalImage.alt = currentModalProperty.images[currentModalIndex].description || 'Property image';
+    modalDescription.textContent = currentModalProperty.images[currentModalIndex].description || '';
+    
+    // Update indicators
+    modalIndicators.querySelectorAll('.modal-indicator').forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentModalIndex);
+    });
 }
 
 // Keyboard navigation for modal
 document.addEventListener('keydown', (e) => {
-    if (currentModalProperty) {
+    const modal = document.getElementById('imageModal');
+    if (modal.style.display === 'flex') {
         if (e.key === 'Escape') {
             closeModal();
         } else if (e.key === 'ArrowLeft') {
-            navigateModal(-1);
+            changeModalImage(-1);
         } else if (e.key === 'ArrowRight') {
-            navigateModal(1);
+            changeModalImage(1);
         }
     }
 });
@@ -213,8 +209,7 @@ document.addEventListener('keydown', (e) => {
 // Global functions for onclick handlers
 window.openModal = openModal;
 window.closeModal = closeModal;
-window.navigateModal = navigateModal;
-window.jumpToModalImage = jumpToModalImage;
+window.changeModalImage = changeModalImage;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', fetchProperties);

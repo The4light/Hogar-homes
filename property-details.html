@@ -17,7 +17,7 @@
             color: #2c3e50;
         }
 
-                .header {
+        .header {
             background: #232526;
             color: #fff;
             display:flex;
@@ -33,7 +33,6 @@
         .column{
             display:flex;
             flex-direction: column;
-            
         }
         .header h1 {
             font-size: 1.8em;
@@ -45,7 +44,7 @@
             font-size: 0.9em;
             margin-top: 5px;
         }
-                     .back-to-listings-btn {
+        .back-to-listings-btn {
             background: #232526;
             color: #fff;
             border: none;
@@ -56,7 +55,7 @@
             text-decoration: none;
             margin-left: 12px;
             position: absolute;
-            right: 70px; /* adjust if needed, so it doesn't overlap the dark mode toggle */
+            right: 70px;
             top: 18px;
             transition: background 0.2s, color 0.2s;
             z-index: 1100;
@@ -65,7 +64,6 @@
         .container {            
             margin: 7rem auto;
             padding: 2rem;
-
         }
 
         .page-title {
@@ -100,6 +98,7 @@
             width: 100%;
             height: 250px;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .property-image {
@@ -218,7 +217,7 @@
             margin-bottom: 10px;
         }
 
-        /* Modal for image carousel */
+        /* Modal Styles - Updated to match property-contact.html */
         .modal {
             display: none;
             position: fixed;
@@ -227,7 +226,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
+            z-index: 2000;
             align-items: center;
             justify-content: center;
         }
@@ -236,9 +235,9 @@
             position: relative;
             max-width: 90%;
             max-height: 90%;
-            width: 800px;
+            width: 900px;
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
@@ -252,17 +251,22 @@
 
         .modal-close {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.7);
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
             z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 1);
         }
 
         .modal-nav {
@@ -271,78 +275,65 @@
             transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.9);
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #333;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .modal-prev {
-            left: 20px;
+            left: 30px;
         }
 
         .modal-next {
-            right: 20px;
+            right: 30px;
         }
 
         .modal-description {
-            padding: 15px;
+            padding: 20px;
             text-align: center;
             background: white;
             border-top: 1px solid #eee;
+            font-size: 1.1em;
         }
 
         .modal-indicators {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             left: 0;
             right: 0;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             z-index: 10;
         }
 
         .modal-indicator {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .modal-indicator.active {
             background: white;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-        }
-
-        @media (max-width: 768px) {
-            .property-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .property-image-container {
-                height: 200px;
-            }
-            
-            .modal-content {
-                max-width: 95%;
-                max-height: 95%;
-            }
-            
-            .modal-nav {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
         }
 
         /* Footer */
@@ -376,19 +367,46 @@
             align-items: center;
             gap: 8px;
         }
+
+        @media (max-width: 768px) {
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .property-image-container {
+                height: 200px;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            
+            .modal-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
-       <div class="header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+    <div class="header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
+            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+            <path d="M10 6h4"></path>
+            <path d="M10 10h4"></path>
+            <path d="M10 14h4"></path>
+            <path d="M10 18h4"></path>
+        </svg>
         <div class="column">
             <h1>Hogar Homes </h1>
-            <p style="font-weight: 500;">Admin Panel</p>
+            <p style="font-weight: 500;">Property Listings</p>
         </div>
-        <!-- Place this after the dark mode toggle button in your .header div -->
-        <a href="index.html" class="back-to-listings-btn" aria-label="Back to Listings">Back to home</a>
+        <a href="index.html" class="back-to-listings-btn" aria-label="Back to Home">Back to home</a>
     </div>
-
 
     <div class="container">
         <h1 class="page-title">Our Property Listings</h1>
@@ -402,7 +420,7 @@
         </div>
     </div>
 
-    <!-- Image Modal -->
+    <!-- Image Modal - Updated structure to match property-contact.html -->
     <div class="modal" id="imageModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">×</button>
