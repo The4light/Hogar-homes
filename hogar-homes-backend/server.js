@@ -91,6 +91,11 @@ const upload = multer({
   }
 });
 
+// Root route - MOVED BEFORE app.listen()
+app.get('/', (req, res) => {
+  res.send('🚀 Hogar Homes API is live!');
+});
+
 // File upload endpoint - Updated for Cloudinary
 app.post('/api/upload', upload.array('files', 10), async (req, res) => {
   try {
@@ -232,9 +237,4 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Cloudinary enabled: ${!!process.env.CLOUDINARY_CLOUD_NAME}`);
-});
-
-
-app.get('/', (req, res) => {
-  res.send('🚀 Hogar Homes API is live!');
 });
