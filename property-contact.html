@@ -570,7 +570,10 @@
         </div>
     </div>
 
-    <script>
+ <script>
+        // API Configuration - UPDATE THIS TO YOUR RENDER URL
+        const API_BASE_URL = 'https://hogar-homes-2.onrender.com';
+        
         let currentProperty = null;
         let currentModalIndex = 0;
 
@@ -587,7 +590,8 @@
         // Fetch property details
         async function fetchPropertyDetails() {
             try {
-                const response = await fetch(`http://localhost:3001/api/properties/${propertyId}`);
+                // UPDATED: Use Render backend URL
+                const response = await fetch(`${API_BASE_URL}/api/properties/${propertyId}`);
                 if (!response.ok) throw new Error('Property not found');
                 
                 const property = await response.json();
@@ -619,7 +623,7 @@
             // Display main image
             if (property.images && property.images.length > 0) {
                 const showcaseImg = document.getElementById('showcaseImage');
-                showcaseImg.src = property.images[0].url;
+                showcaseImg.src = property.images[0].thumbnailUrl || property.images[0].url;
                 showcaseImg.alt = property.images[0].description || 'Property image';
                 
                 const imageCounter = document.getElementById('imageCounter');
@@ -628,7 +632,7 @@
                     imageCounter.style.display = 'block';
                 }
             } else {
-                document.getElementById('showcase-image-container').style.display = 'none';
+                document.querySelector('.showcase-image-container').style.display = 'none';
             }
         }
 
@@ -713,7 +717,8 @@
             };
 
             try {
-                const response = await fetch('http://localhost:3001/api/contact', {
+                // UPDATED: Use Render backend URL
+                const response = await fetch(`${API_BASE_URL}/api/contact`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
