@@ -125,7 +125,7 @@ async function handlePropertySubmit(e) {
 
         showStatus('💾 Saving property...', 'loading');
 
-        // Create property object with uploaded image URLs and new fields
+        // Create property object with uploaded image URLs
         const property = {
             title: document.getElementById('propertyTitle').value,
             price: document.getElementById('propertyPrice').value,
@@ -135,13 +135,16 @@ async function handlePropertySubmit(e) {
             bedrooms: document.getElementById('propertyBedrooms').value,
             bathrooms: document.getElementById('propertyBathrooms').value,
             squareFeet: document.getElementById('propertySquareFeet').value,
+            // UPDATED: Handle Cloudinary response structure
             images: uploadedImages.map((img, index) => ({
-                url: img.url,
+                url: img.url,                    // Cloudinary URL
+                publicId: img.publicId,          // For deletion later
+                thumbnailUrl: img.thumbnailUrl,  // Auto-generated thumbnail
                 description: imageDescriptions[index] || `Image ${index + 1}`
             }))
         };
 
-        // Save to backend
+        // Save to backend (no change here)
         const response = await fetch('http://localhost:3001/api/properties', {
             method: 'POST',
             headers: {
@@ -155,15 +158,13 @@ async function handlePropertySubmit(e) {
             throw new Error(errorData.error || 'Failed to save property');
         }
 
-        // Clear form
+        // Clear form (no change)
         propertyForm.reset();
         selectedFiles = [];
         imageDescriptions = {};
         selectedImages.innerHTML = '';
         
         showStatus('✅ Property uploaded successfully!', 'success');
-        
-        // Refresh properties list
         fetchProperties();
         
     } catch (error) {
@@ -217,8 +218,11 @@ function displayProperty(property) {
     propertyCard.innerHTML = `
         <div class="property-image-container" ${mainImage ? `onclick="openModal('${property._id}', 0)"` : ''}>
             ${mainImage ? `
-                <img src="${mainImage.url}" alt="${mainImage.description}" class="property-image" 
-                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGN0ZBIi8+CjxwYXRoIGQ9Ik0xMjUgNzVMMTUwIDEwMEwxNzUgNzVMMTg3LjUgODcuNUwxNzUgMTAwTDE1MCA3NUwxMjUgMTAwTDExMi41IDg3LjVMMTI1IDc1WiIgZmlsbD0iIzdGOEM4RCIvPgo8dGV4dCB4PSIxNTAiIHk9IjEzMCIgZmlsbD0iIzdGOEM4RCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';">
+                <img src="${mainImage.thumbnailUrl || mainImage.url}" 
+                     alt="${mainImage.description}" 
+                     class="property-image"
+                     loading="lazy"
+                     onerror="this.src='${mainImage.url}'; this.onerror=null;">
                 ${property.images.length > 1 ? `<div class="image-counter">1/${property.images.length}</div>` : ''}
             ` : `
                 <div class="no-image-placeholder">
@@ -234,19 +238,20 @@ function displayProperty(property) {
             </div>
             <div class="property-description">${property.description}</div>
             <div class="property-meta">
-                <span> ${property.bedrooms || 'N/A'} bed${property.bedrooms != 1 ? 's' : ''}</span>
-                <span> ${property.bathrooms || 'N/A'} bath${property.bathrooms != 1 ? 's' : ''}</span>
-                <span> ${property.squareFeet || 'N/A'} sq ft</span>
+                <span>🛏️ ${property.bedrooms || 'N/A'} bed${property.bedrooms != 1 ? 's' : ''}</span>
+                <span>🚿 ${property.bathrooms || 'N/A'} bath${property.bathrooms != 1 ? 's' : ''}</span>
+                <span>📐 ${property.squareFeet || 'N/A'} sq ft</span>
             </div>
             <div class="property-actions">
-                <button class="btn-small btn-edit" onclick="editProperty('${property._id}')"> Edit</button>
-                <button class="btn-small btn-delete" onclick="deleteProperty('${property._id}')"> Delete</button>
+                <button class="btn-small btn-edit" onclick="editProperty('${property._id}')">✏️ Edit</button>
+                <button class="btn-small btn-delete" onclick="deleteProperty('${property._id}')">🗑️ Delete</button>
             </div>
         </div>
     `;
 
     propertyGrid.appendChild(propertyCard);
 }
+
 
 function editProperty(id) {
     const property = properties.find(p => p._id === id);
@@ -377,17 +382,26 @@ function navigateModal(direction) {
     
     const modal = document.querySelector('.property-modal');
     if (modal) {
-        modal.querySelector('.modal-image-container img').src = 
-            currentModalProperty.images[currentModalIndex].url;
-        modal.querySelector('.modal-image-container img').alt = 
-            currentModalProperty.images[currentModalIndex].description;
+        const currentImage = currentModalProperty.images[currentModalIndex];
+        modal.querySelector('.modal-image-container img').src = currentImage.url;
+        modal.querySelector('.modal-image-container img').alt = currentImage.description;
         modal.querySelector('.image-counter').textContent = 
             `${currentModalIndex + 1}/${currentModalProperty.images.length}`;
-        modal.querySelector('.modal-image-info p').textContent = 
-            currentModalProperty.images[currentModalIndex].description;
+        modal.querySelector('.modal-image-info p').textContent = currentImage.description;
             
         modal.querySelectorAll('.modal-thumbnails img').forEach((img, idx) => {
             img.classList.toggle('active', idx === currentModalIndex);
+        });
+    }
+}
+
+
+function preloadImages(property) {
+    // Preload next few images for better user experience
+    if (property.images && property.images.length > 1) {
+        property.images.slice(0, 3).forEach(img => {
+            const image = new Image();
+            image.src = img.thumbnailUrl || img.url;
         });
     }
 }
@@ -437,7 +451,7 @@ function showErrorState() {
 // Keyboard navigation for modal
 document.addEventListener('keydown', (e) => {
     if (currentModalProperty) {
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape') {   
             closeModal();
         } else if (e.key === 'ArrowLeft') {
             navigateModal(-1);
@@ -460,6 +474,16 @@ toggleBtn.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     fetchProperties();
 });
+
+function handleImageError(img, property) {
+    // Fallback to original URL if thumbnail fails
+    if (img.src.includes('thumbnail') && property.url) {
+        img.src = property.url;
+    } else {
+        // Show placeholder if all fails
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGN0ZBIi8+CjxwYXRoIGQ9Ik0xMjUgNzVMMTUwIDEwMEwxNzUgNzVMMTg3LjUgODcuNUwxNzUgMTAwTDE1MCA3NUwxMjUgMTAwTDExMi41IDg3LjVMMTI1IDc1WiIgZmlsbD0iIzdGOEM4RCIvPgo8dGV4dCB4PSIxNTAiIHk9IjEzMCIgZmlsbD0iIzdGOEM4RCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';
+    }
+}
 
 // Global functions
 window.updateDescription = updateDescription;

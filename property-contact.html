@@ -480,24 +480,23 @@
     <div class="container">
         <!-- Property Header -->
         <div class="property-header">
-            <h1 class="property-title" id="propertyTitle">Luxury 3BR Apartment</h1>
+            <h1 class="property-title" id="propertyTitle">Loading property...</h1>
             
             <div class="price-location">
-                <div class="property-price" id="propertyPrice">₦45,000,000</div>
+                <div class="property-price" id="propertyPrice">₦--</div>
                 <div class="property-location" id="propertyLocation">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    Victoria Island, Lagos
+                    <span id="locationText">Loading...</span>
                 </div>
             </div>
             
             <div class="property-meta">
-            
-                <span> <span id="propertyBedrooms">3</span> bed<span id="bedroomPlural">s</span></span>
-                <span><span id="propertyBathrooms">2</span> bath<span id="bathroomPlural">s</span></span>
-                <span> <span id="propertySqft">1,800</span> sq ft</span>
+                <span><span id="propertyBedrooms">--</span> bed<span id="bedroomPlural">s</span></span>
+                <span><span id="propertyBathrooms">--</span> bath<span id="bathroomPlural">s</span></span>
+                <span><span id="propertySqft">--</span> sq ft</span>
             </div>
         </div>
 
@@ -506,16 +505,16 @@
             <!-- Left side - Property Showcase -->
             <div class="property-showcase">
                 <div class="showcase-image-container" onclick="openModal(0)">
-                    <img src="https://via.placeholder.com/800x500/3498db/ffffff?text=Property+Image" 
-                         alt="Property showcase" 
+                    <img src="" 
+                         alt="Property image" 
                          class="showcase-image" 
                          id="showcaseImage">
-                    <div class="image-counter" id="imageCounter">1/5</div>
+                    <div class="image-counter" id="imageCounter" style="display: none;">1/1</div>
                 </div>
                 
                 <div class="property-description-section">
                     <p class="property-description" id="propertyDescription">
-                        Beautiful 3 bedroom apartment with stunning ocean views. Fully furnished with modern amenities including swimming pool, gym, and 24/7 security. This luxurious property offers the perfect blend of comfort and elegance, situated in the heart of Victoria Island with easy access to business districts and recreational facilities.
+                        Loading property description...
                     </p>
                 </div>
             </div>
@@ -572,46 +571,18 @@
     </div>
 
     <script>
-        // Sample data - replace with your actual API data
-        let currentProperty = {
-            _id: '1',
-            title: 'Luxury 3BR Apartment',
-            price: '₦45,000,000',
-            location: 'Victoria Island, Lagos',
-            type: 'Apartment',
-            bedrooms: 3,
-            bathrooms: 2,
-            squareFeet: 1800,
-            description: 'Beautiful 3 bedroom apartment with stunning ocean views. Fully furnished with modern amenities including swimming pool, gym, and 24/7 security. This luxurious property offers the perfect blend of comfort and elegance, situated in the heart of Victoria Island with easy access to business districts and recreational facilities.',
-            images: [
-                {
-                    url: 'https://via.placeholder.com/800x500/3498db/ffffff?text=Living+Room',
-                    description: 'Spacious living room with modern furniture'
-                },
-                {
-                    url: 'https://via.placeholder.com/800x500/27ae60/ffffff?text=Kitchen',
-                    description: 'Modern kitchen with latest appliances'
-                },
-                {
-                    url: 'https://via.placeholder.com/800x500/e74c3c/ffffff?text=Bedroom',
-                    description: 'Master bedroom with ocean view'
-                },
-                {
-                    url: 'https://via.placeholder.com/800x500/f39c12/ffffff?text=Bathroom',
-                    description: 'Luxury bathroom with marble finishes'
-                },
-                {
-                    url: 'https://via.placeholder.com/800x500/9b59b6/ffffff?text=Balcony',
-                    description: 'Private balcony overlooking the ocean'
-                }
-            ]
-        };
-
+        let currentProperty = null;
         let currentModalIndex = 0;
 
         // Get property ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const propertyId = urlParams.get('id');
+
+        if (!propertyId) {
+            document.getElementById('propertyTitle').textContent = 'Property Not Found';
+            document.getElementById('propertyDescription').textContent = 'The requested property could not be found. Please return to the listings page.';
+            document.querySelector('.showcase-image-container').style.display = 'none';
+        }
 
         // Fetch property details
         async function fetchPropertyDetails() {
@@ -625,24 +596,16 @@
                 
             } catch (error) {
                 console.error('Error fetching property:', error);
-                // Use sample data for demo
-                displayPropertyDetails(currentProperty);
+                showErrorState(error.message);
             }
         }
 
         // Display property details
         function displayPropertyDetails(property) {
-            document.getElementById('propertyTitle').textContent = property.title;
-            document.getElementById('propertyPrice').textContent = property.price;
-            document.getElementById('propertyLocation').innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                ${property.location}
-            `;
-            document.getElementById('propertyType').textContent = property.type;
-            document.getElementById('propertyDescription').textContent = property.description;
+            document.getElementById('propertyTitle').textContent = property.title || 'No title available';
+            document.getElementById('propertyPrice').textContent = property.price || 'Price not available';
+            document.getElementById('locationText').textContent = property.location || 'Location not specified';
+            document.getElementById('propertyDescription').textContent = property.description || 'No description available';
             
             // Update bedrooms, bathrooms, and square footage
             document.getElementById('propertyBedrooms').textContent = property.bedrooms ?? 'N/A';
@@ -655,15 +618,28 @@
 
             // Display main image
             if (property.images && property.images.length > 0) {
-                document.getElementById('showcaseImage').src = property.images[0].url;
-                document.getElementById('showcaseImage').alt = property.images[0].description;
-                document.getElementById('imageCounter').textContent = `1/${property.images.length}`;
+                const showcaseImg = document.getElementById('showcaseImage');
+                showcaseImg.src = property.images[0].url;
+                showcaseImg.alt = property.images[0].description || 'Property image';
+                
+                const imageCounter = document.getElementById('imageCounter');
+                if (property.images.length > 1) {
+                    imageCounter.textContent = `1/${property.images.length}`;
+                    imageCounter.style.display = 'block';
+                }
+            } else {
+                document.getElementById('showcase-image-container').style.display = 'none';
             }
+        }
+
+        function showErrorState(message) {
+            document.getElementById('propertyTitle').textContent = 'Error Loading Property';
+            document.getElementById('propertyDescription').textContent = message || 'Failed to load property details. Please try again later.';
         }
 
         // Modal functions
         function openModal(imageIndex) {
-            if (!currentProperty.images || currentProperty.images.length === 0) return;
+            if (!currentProperty?.images || currentProperty.images.length === 0) return;
             
             currentModalIndex = imageIndex;
             
@@ -673,8 +649,8 @@
             const modalIndicators = document.getElementById('modalIndicators');
             
             modalImage.src = currentProperty.images[imageIndex].url;
-            modalImage.alt = currentProperty.images[imageIndex].description;
-            modalDescription.textContent = currentProperty.images[imageIndex].description || 'No description';
+            modalImage.alt = currentProperty.images[imageIndex].description || 'Property image';
+            modalDescription.textContent = currentProperty.images[imageIndex].description || '';
             
             // Update indicators
             modalIndicators.innerHTML = '';
@@ -696,7 +672,7 @@
         }
 
         function changeModalImage(direction) {
-            if (!currentProperty.images) return;
+            if (!currentProperty?.images) return;
             
             let newIndex = currentModalIndex + direction;
             const imagesLength = currentProperty.images.length;
@@ -737,7 +713,18 @@
             };
 
             try {
-                console.log('Form submitted:', formData);
+                const response = await fetch('http://localhost:3001/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+
                 alert('Thank you for your inquiry! An agent will contact you shortly.');
                 this.reset();
                 
@@ -750,9 +737,6 @@
         // Initialize
         if (propertyId) {
             fetchPropertyDetails();
-        } else {
-            // Use sample data for demo
-            displayPropertyDetails(currentProperty);
         }
     </script>
 </body>

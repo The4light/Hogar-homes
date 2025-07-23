@@ -106,9 +106,9 @@ function displayProperties() {
         </div>
         <p class="property-description">${property.description || 'No description available'}</p>
         <div class="property-meta">
-            <span>${property.bedrooms ?? 'N/A'} bed${property.bedrooms == 1 ? '' : 's'}</span>
-            <span> ${property.bathrooms ?? 'N/A'} bath${property.bathrooms == 1 ? '' : 's'}</span>
-            <span>${property.squareFeet ?? 'N/A'} sq ft</span>
+            <span>• ${property.bedrooms ?? 'N/A'} bed${property.bedrooms == 1 ? '' : 's'}</span>
+            <span> • ${property.bathrooms ?? 'N/A'} bath${property.bathrooms == 1 ? '' : 's'}</span>
+            <span>• ${property.squareFeet ?? 'N/A'} sq ft</span>
         </div>
         <a href="property-contact.html?id=${property._id}" class="contact-btn">Contact Agent</a>
     </div>
@@ -119,31 +119,41 @@ function displayProperties() {
 
 // Modal functions
 function openModal(propertyId, imageIndex) {
-    const property = properties.find(p => p._id === propertyId);
-    if (!property || !property.images || property.images.length === 0) return;
+    currentModalProperty = properties.find(p => p._id === propertyId);
+    if (!currentModalProperty || !currentModalProperty.images || currentModalProperty.images.length === 0) return;
     
-    currentModalProperty = property;
     currentModalIndex = imageIndex;
     
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalIndicators = document.getElementById('modalIndicators');
+    const modal = document.createElement('div');
+    modal.className = 'property-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-image-container">
+                <img src="${currentModalProperty.images[currentModalIndex].url}" 
+                     alt="${currentModalProperty.images[currentModalIndex].description}"
+                     loading="lazy">
+                <div class="modal-image-info">
+                    <span class="image-counter">${currentModalIndex + 1}/${currentModalProperty.images.length}</span>
+                    <p>${currentModalProperty.images[currentModalIndex].description}</p>
+                </div>
+            </div>
+            ${currentModalProperty.images.length > 1 ? `
+                <button class="modal-nav prev" onclick="navigateModal(-1)">❮</button>
+                <button class="modal-nav next" onclick="navigateModal(1)">❯</button>
+                <div class="modal-thumbnails">
+                    ${currentModalProperty.images.map((img, idx) => `
+                        <img src="${img.thumbnailUrl || img.url}" 
+                             class="${idx === currentModalIndex ? 'active' : ''}"
+                             onclick="jumpToModalImage(${idx})"
+                             loading="lazy">
+                    `).join('')}
+                </div>
+            ` : ''}
+        </div>
+    `;
     
-    modalImage.src = property.images[imageIndex].url;
-    modalImage.alt = property.images[imageIndex].description;
-    modalDescription.textContent = property.images[imageIndex].description || 'No description';
-    
-    // Update indicators
-    modalIndicators.innerHTML = '';
-    property.images.forEach((img, index) => {
-        const indicator = document.createElement('div');
-        indicator.className = `modal-indicator ${index === imageIndex ? 'active' : ''}`;
-        indicator.onclick = () => changeModalImage(index - currentModalIndex);
-        modalIndicators.appendChild(indicator);
-    });
-    
-    modal.style.display = 'flex';
+    document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
 }
 
