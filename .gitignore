@@ -1,0 +1,7 @@
+node_modules/
+uploads/
+*.log
+.env
+# Ignore all files in the uploads directory
+uploads/*
+#ignore all local files

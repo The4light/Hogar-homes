@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Agent | Hogar Homes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: #232526;
+            color: #fff;
+            display: flex;
+            gap: 1.1rem;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .container {
+            margin-top: 6rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+        }
+        
+        .back-to-listings-btn {
+            background: #232526;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 1em;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 12px;
+            position: absolute;
+            right: 70px;
+            top: 18px;
+            transition: background 0.2s, color 0.2s;
+            z-index: 1100;
+        }
+
+        .property-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .property-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .price-location {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .property-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .property-location {
+            color: #3498db;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+        }
+
+        .property-location svg {
+            margin-right: 8px;
+        }
+
+        .property-meta {
+            display: flex;
+            gap: 2rem;
+            color: #7f8c8d;
+            font-size: 1em;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Left side - Image and Description */
+        .property-showcase {
+            flex: 2;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .showcase-image-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .showcase-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .showcase-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .property-description-section {
+            padding: 2rem;
+        }
+
+        .property-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* Right side - Contact Form */
+        .contact-section {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+            position: relative;
+        }
+
+        .form-title:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #3498db;
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            width: 900px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 1);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 30px;
+        }
+
+        .modal-next {
+            right: 30px;
+        }
+
+        .modal-description {
+            padding: 20px;
+            text-align: center;
+            background: white;
+            border-top: 1px solid #eee;
+            font-size: 1.1em;
+        }
+
+        .modal-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .modal-indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-indicator.active {
+            background: white;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .contact-section {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .property-title {
+                font-size: 1.8em;
+            }
+            
+            .property-price {
+                font-size: 1.6em;
+            }
+            
+            .price-location {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .property-meta {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .showcase-image-container {
+                height: 300px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            
+            .modal-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
+            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+            <path d="M10 6h4"></path>
+            <path d="M10 10h4"></path>
+            <path d="M10 14h4"></path>
+            <path d="M10 18h4"></path>
+        </svg>
+        <div class="column">
+            <h1>Hogar Homes</h1>
+            <p style="font-weight: 500;">Property Contact</p>
+        </div>
+        <a href="index.html" class="back-to-listings-btn" aria-label="Back to Listings">Back to home</a>
+    </div>
+
+    <div class="container">
+        <!-- Property Header -->
+        <div class="property-header">
+            <h1 class="property-title" id="propertyTitle">Luxury 3BR Apartment</h1>
+            
+            <div class="price-location">
+                <div class="property-price" id="propertyPrice">₦45,000,000</div>
+                <div class="property-location" id="propertyLocation">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Victoria Island, Lagos
+                </div>
+            </div>
+            
+            <div class="property-meta">
+            
+                <span> <span id="propertyBedrooms">3</span> bed<span id="bedroomPlural">s</span></span>
+                <span><span id="propertyBathrooms">2</span> bath<span id="bathroomPlural">s</span></span>
+                <span> <span id="propertySqft">1,800</span> sq ft</span>
+            </div>
+        </div>
+
+        <!-- Main Content Layout -->
+        <div class="main-content">
+            <!-- Left side - Property Showcase -->
+            <div class="property-showcase">
+                <div class="showcase-image-container" onclick="openModal(0)">
+                    <img src="https://via.placeholder.com/800x500/3498db/ffffff?text=Property+Image" 
+                         alt="Property showcase" 
+                         class="showcase-image" 
+                         id="showcaseImage">
+                    <div class="image-counter" id="imageCounter">1/5</div>
+                </div>
+                
+                <div class="property-description-section">
+                    <p class="property-description" id="propertyDescription">
+                        Beautiful 3 bedroom apartment with stunning ocean views. Fully furnished with modern amenities including swimming pool, gym, and 24/7 security. This luxurious property offers the perfect blend of comfort and elegance, situated in the heart of Victoria Island with easy access to business districts and recreational facilities.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right side - Contact Form -->
+            <div class="contact-section">
+                <h2 class="form-title">Contact Agent</h2>
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required>I'm interested in this property and would like to schedule a viewing...</textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-description" id="modalDescription"></div>
+            <button class="modal-nav modal-prev" onclick="changeModalImage(-1)">‹</button>
+            <button class="modal-nav modal-next" onclick="changeModalImage(1)">›</button>
+            <div class="modal-indicators" id="modalIndicators"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <p>© 2023 Hogar Homes. All rights reserved.</p>
+            <p>Premium real estate services in Lagos, Nigeria</p>
+        </div>
+    </div>
+
+    <script>
+        // Sample data - replace with your actual API data
+        let currentProperty = {
+            _id: '1',
+            title: 'Luxury 3BR Apartment',
+            price: '₦45,000,000',
+            location: 'Victoria Island, Lagos',
+            type: 'Apartment',
+            bedrooms: 3,
+            bathrooms: 2,
+            squareFeet: 1800,
+            description: 'Beautiful 3 bedroom apartment with stunning ocean views. Fully furnished with modern amenities including swimming pool, gym, and 24/7 security. This luxurious property offers the perfect blend of comfort and elegance, situated in the heart of Victoria Island with easy access to business districts and recreational facilities.',
+            images: [
+                {
+                    url: 'https://via.placeholder.com/800x500/3498db/ffffff?text=Living+Room',
+                    description: 'Spacious living room with modern furniture'
+                },
+                {
+                    url: 'https://via.placeholder.com/800x500/27ae60/ffffff?text=Kitchen',
+                    description: 'Modern kitchen with latest appliances'
+                },
+                {
+                    url: 'https://via.placeholder.com/800x500/e74c3c/ffffff?text=Bedroom',
+                    description: 'Master bedroom with ocean view'
+                },
+                {
+                    url: 'https://via.placeholder.com/800x500/f39c12/ffffff?text=Bathroom',
+                    description: 'Luxury bathroom with marble finishes'
+                },
+                {
+                    url: 'https://via.placeholder.com/800x500/9b59b6/ffffff?text=Balcony',
+                    description: 'Private balcony overlooking the ocean'
+                }
+            ]
+        };
+
+        let currentModalIndex = 0;
+
+        // Get property ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = urlParams.get('id');
+
+        // Fetch property details
+        async function fetchPropertyDetails() {
+            try {
+                const response = await fetch(`http://localhost:3001/api/properties/${propertyId}`);
+                if (!response.ok) throw new Error('Property not found');
+                
+                const property = await response.json();
+                currentProperty = property;
+                displayPropertyDetails(property);
+                
+            } catch (error) {
+                console.error('Error fetching property:', error);
+                // Use sample data for demo
+                displayPropertyDetails(currentProperty);
+            }
+        }
+
+        // Display property details
+        function displayPropertyDetails(property) {
+            document.getElementById('propertyTitle').textContent = property.title;
+            document.getElementById('propertyPrice').textContent = property.price;
+            document.getElementById('propertyLocation').innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                ${property.location}
+            `;
+            document.getElementById('propertyType').textContent = property.type;
+            document.getElementById('propertyDescription').textContent = property.description;
+            
+            // Update bedrooms, bathrooms, and square footage
+            document.getElementById('propertyBedrooms').textContent = property.bedrooms ?? 'N/A';
+            document.getElementById('propertyBathrooms').textContent = property.bathrooms ?? 'N/A';
+            document.getElementById('propertySqft').textContent = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';
+            
+            // Update plural indicators
+            document.getElementById('bedroomPlural').textContent = property.bedrooms === 1 ? '' : 's';
+            document.getElementById('bathroomPlural').textContent = property.bathrooms === 1 ? '' : 's';
+
+            // Display main image
+            if (property.images && property.images.length > 0) {
+                document.getElementById('showcaseImage').src = property.images[0].url;
+                document.getElementById('showcaseImage').alt = property.images[0].description;
+                document.getElementById('imageCounter').textContent = `1/${property.images.length}`;
+            }
+        }
+
+        // Modal functions
+        function openModal(imageIndex) {
+            if (!currentProperty.images || currentProperty.images.length === 0) return;
+            
+            currentModalIndex = imageIndex;
+            
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalIndicators = document.getElementById('modalIndicators');
+            
+            modalImage.src = currentProperty.images[imageIndex].url;
+            modalImage.alt = currentProperty.images[imageIndex].description;
+            modalDescription.textContent = currentProperty.images[imageIndex].description || 'No description';
+            
+            // Update indicators
+            modalIndicators.innerHTML = '';
+            currentProperty.images.forEach((img, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = `modal-indicator ${index === imageIndex ? 'active' : ''}`;
+                indicator.onclick = () => changeModalImage(index - currentModalIndex);
+                modalIndicators.appendChild(indicator);
+            });
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeModalImage(direction) {
+            if (!currentProperty.images) return;
+            
+            let newIndex = currentModalIndex + direction;
+            const imagesLength = currentProperty.images.length;
+            
+            if (newIndex < 0) {
+                newIndex = imagesLength - 1;
+            } else if (newIndex >= imagesLength) {
+                newIndex = 0;
+            }
+            
+            openModal(newIndex);
+        }
+
+        // Keyboard navigation for modal
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('imageModal');
+            if (modal.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    changeModalImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeModalImage(1);
+                }
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value,
+                propertyId: propertyId
+            };
+
+            try {
+                console.log('Form submitted:', formData);
+                alert('Thank you for your inquiry! An agent will contact you shortly.');
+                this.reset();
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Failed to send message. Please try again.');
+            }
+        });
+
+        // Initialize
+        if (propertyId) {
+            fetchPropertyDetails();
+        } else {
+            // Use sample data for demo
+            displayPropertyDetails(currentProperty);
+        }
+    </script>
+</body>
+</html>

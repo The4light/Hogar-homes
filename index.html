@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogar Homes - Premium Real Estate in Lagos</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#properties">Properties</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+         <div style="display: flex; align-items: center;">
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+            <a href="login.html" class="login-btn">Login</a>
+        </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+                 <img
+                    src="user.png"
+                    alt="User"
+                    class="w-32 h-32 rounded-full mx-auto border-4 border-background/20 shadow-2xl object-cover"
+                    style="width: 8rem; height: 8rem; border-radius: 9999px; margin-left: auto; margin-right: auto; border: 4px solid rgba(44,62,80,0.20); box-shadow: 0 8px 32px rgba(44,62,80,0.18); object-fit: cover;"
+                >
+                <h2>Voke</h2>
+            <h1>Find Your Dream Home </h1>
+            <p class="hero-subtitle">Premium real estate properties in Victoria Island, Eko Atlantic, and Lagos's most prestigious locations</p>
+            <div class="hero-buttons">
+                <a href="property-details.html" class="btn-primary">Explore Properties</a>
+                <a href="#contact" class="btn-secondary">Contact Agent</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+
+
+    <!-- Property Types -->
+   
+
+    <!-- Featured Properties Section -->
+        <section id="featured-properties" class="featured-properties">
+          <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Featured Properties</h2>
+                    <p class="section-subtitle">Handpicked premium listings just for you</p>
+                </div>
+                <div class="property-grid" id="featuredPropertyGrid">
+                    <!-- JS will inject featured property cards here -->
+                </div>
+            </div>
+        </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content animate-on-scroll">
+                <h2>Ready to Find Your Perfect Property?</h2>
+                <p>Let our expert team help you discover the perfect property that matches your dreams and budget</p>
+                <div class="hero-buttons">
+                    <a href="property-details.html" class="btn-primary">Browse Properties</a>
+                    <a href="#contact" class="btn-secondary">Schedule Consultation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Hogar Homes</h3>
+                    <p>Premium real estate services in Lagos, Nigeria. Your trusted partner in finding the perfect property.</p>
+                    <p>🏠 Victoria Island, Lagos</p>
+                    <p>📞 +234 123 456 7890</p>
+                    <p>✉️ info@hogarhomes.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="property-details.html">Property Listings</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Services</a>
+                    <a href="#">Contact</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Property Types</h3>
+                    <a href="#">Apartments</a>
+                    <a href="#">Villas</a>
+                    <a href="#">Penthouses</a>
+                    <a href="#">Commercial</a>
+                    <a href="#">Land</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Areas We Cover</h3>
+                    <a href="#">Victoria Island</a>
+                    <a href="#">Eko Atlantic</a>
+                    <a href="#">Ikoyi</a>
+                    <a href="#">Lekki</a>
+                    <a href="#">Banana Island</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hogar Homes. All rights reserved. | Built with excellence for Lagos's premium real estate market</p>
+            </div>
+        </div>
+    </footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.header');
+    const hero = document.querySelector('.hero');
+
+    function onScroll() {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        if (heroBottom <= 0) {
+            header.classList.add('solid');
+        } else {
+            header.classList.remove('solid');
+        }
+    }
+
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Run on load in case not at top
+});
+</script>
+<script src="index.js"></script>
+</body>
+</html>

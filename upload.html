@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogar Homes - Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>
+        <div class="column">
+            <h1>Hogar Homes </h1>
+            <p style="font-weight: 500;">Admin Panel</p>
+        </div>
+        <!-- Place this after the dark mode toggle button in your .header div -->
+        <a href="property-details.html" class="back-to-listings-btn" aria-label="Back to Listings">Back to Listings</a>
+        <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Add New Property</h2>
+            
+            <form id="propertyForm">
+                <div class="form-group">
+                    <label for="propertyTitle">Property Title</label>
+                    <input type="text" id="propertyTitle" placeholder="e.g., Luxury 3BR Apartment" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyPrice">Price</label>
+                    <input type="text" id="propertyPrice" placeholder="e.g., ₦45,000,000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyLocation">Location</label>
+                    <input type="text" id="propertyLocation" placeholder="e.g., Victoria Island, Lagos" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyType">Property Type</label>
+                    <select id="propertyType" required>
+                        <option value="">Select Type</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="house">House</option>
+                        <option value="villa">Villa</option>
+                        <option value="penthouse">Penthouse</option>
+                        <option value="office">Office Space</option>
+                        <option value="land">Land</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyDescription">Description</label>
+                    <textarea id="propertyDescription" placeholder="full details" required></textarea>
+                </div>
+                          <div class="form-group">
+                            <label for="propertyBedrooms">Bedrooms</label>
+                            <input type="number" id="propertyBedrooms" placeholder="e.g., 3" min="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="propertyBathrooms">Bathrooms</label>
+                            <input type="number" id="propertyBathrooms" placeholder="e.g., 2" min="0" step="0.5" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="propertySquareFeet">Square Feet</label>
+                            <input type="number" id="propertySquareFeet" placeholder="e.g., 1200" min="0" required>
+                        </div>
+                <div class="form-group">
+                    <label>Property Images</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">Click or drag images here</div>
+                        <div class="upload-subtext">Max 10 images, JPG/PNG only</div>
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*">
+                    </div>
+                    <div class="selected-images" id="selectedImages"></div>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">
+                    Add Property
+                </button>
+
+                <div class="status" id="status"></div>
+            </form>
+        </div>
+
+        <div class="main-content">
+            <h2> Property Listings</h2>
+            <div class="property-grid" id="propertyGrid">
+                <div class="no-properties">
+                    <div class="icon">🏘️</div>
+                    <h3>No Properties Yet</h3>
+                    <p>Upload your first property using the form on the left</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
