@@ -7,22 +7,12 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<!-- Header -->
+    <!-- Header -->
     <header class="header">
         <nav class="nav-container">
             <a href="#" class="logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
-                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
-                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
-                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
-                    <path d="M10 6h4"></path>
-                    <path d="M10 10h4"></path>
-                    <path d="M10 14h4"></path>
-                    <path d="M10 18h4"></path>
-                </svg>
-                Hogar Homes
+               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
             </a>
-            
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="property-details.html">Properties</a></li>
@@ -30,24 +20,12 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            
-            <div class="nav-actions">
-                <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
-                <a href="login.html" class="login-btn">Login</a>
-                <div class="mobile-toggle" onclick="toggleMobileMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
+         <div style="display: flex; align-items: center;">
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+            <a href="login.html" class="login-btn">Login</a>
+        </div>
         </nav>
     </header>
-
-    <!-- Demo Content -->
-    <div class="demo-content">
-        <h1>Welcome to Hogar Homes</h1>
-        <p>Scroll down to see the header background change</p>
-    </div>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -160,65 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
     onScroll(); // Run on load in case not at top
 });
 </script>
-
- <script>
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            
-            navLinks.classList.toggle('active');
-            mobileToggle.classList.toggle('active');
-        }
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            const body = document.body;
-            const toggleBtn = document.querySelector('.dark-mode-toggle');
-            
-            body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                toggleBtn.textContent = '☀️';
-            } else {
-                toggleBtn.textContent = '🌙';
-            }
-        }
-
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            
-            if (window.scrollY > 50) {
-                header.classList.add('solid');
-            } else {
-                header.classList.remove('solid');
-            }
-        });
-
-        // Close mobile menu when clicking on links
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                const navLinks = document.querySelector('.nav-links');
-                const mobileToggle = document.querySelector('.mobile-toggle');
-                
-                navLinks.classList.remove('active');
-                mobileToggle.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            const navLinks = document.querySelector('.nav-links');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            const navContainer = document.querySelector('.nav-container');
-            
-            if (!navContainer.contains(e.target) && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                mobileToggle.classList.remove('active');
-            }
-        });
-    </script>
 <script src="index.js"></script>
 </body>
 </html>
