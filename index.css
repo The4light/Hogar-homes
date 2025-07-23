@@ -12,49 +12,33 @@
             overflow-x: hidden;
         }
 
-        /* Header & Navigation */
+       /* Header & Navigation */
         .header {
-                position: fixed;
-                top: 0;
-                width: 100%;
-                background: transparent !important; /* fully transparent */
-                box-shadow: none;
-                backdrop-filter: none;
-                z-index: 1000;
-                transition: all 0.3s ease;
-        }
-        .header.solid {
-                background: rgba(35, 37, 38, 0.97) !important;
-                box-shadow: 0 2px 16px rgba(44,62,80,0.08);
-                backdrop-filter: blur(10px);
-                transition: background 0.3s, box-shadow 0.3s;
-      }
-         .login-btn {
-            background:transparent;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            padding: 0.6rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-left: 1rem;
-            text-decoration: none;
-            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-    
-        }
-        .login-btn:hover {
-            background: linear-gradient(135deg, #2980b9, #3498db);
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent !important;
+            box-shadow: none;
+            backdrop-filter: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-            .nav-container {
+        .header.solid {
+            background: rgba(35, 37, 38, 0.97) !important;
+            box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+            backdrop-filter: blur(10px);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
+            position: relative;
         }
 
         .logo {
@@ -100,17 +84,191 @@
             width: 100%;
         }
 
-        .cta-button {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        .nav-actions {
+            display: flex;
+            align-items: center;
         }
 
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .login-btn {
+            background: transparent;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-left: 1rem;
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Dark mode styles */
+        .dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        .dark-mode .header.solid {
+            background: rgba(52, 73, 94, 0.97) !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(35, 37, 38, 0.97);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 0.5rem 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem;
+            }
+
+            .nav-actions {
+                gap: 0.5rem;
+            }
+
+            .login-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                margin-left: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .logo svg {
+                width: 30px;
+                height: 35px;
+            }
+
+            .login-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .dark-mode-toggle {
+                font-size: 1.2rem;
+                padding: 0.3rem;
+            }
+        }
+
+        /* Demo content */
+        .demo-content {
+            padding-top: 100px;
+            text-align: center;
+            color: #fff;
+            padding: 150px 2rem 50px;
+        }
+
+        .demo-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .demo-content h1 {
+                font-size: 2rem;
+            }
+
+            .demo-content p {
+                font-size: 1rem;
+            }
+        }
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
