@@ -3,12 +3,16 @@ let properties = [];
 let currentModalProperty = null;
 let currentModalIndex = 0;
 
+// API Configuration - UPDATE THIS TO YOUR RENDER URL
+const API_BASE_URL = 'https://hogar-homes-2.onrender.com';
+
 // Fetch properties from API
 async function fetchProperties() {
     try {
         showLoadingState();
         
-        const response = await fetch('http://localhost:3001/api/properties');
+        // UPDATED: Use Render backend URL instead of localhost
+        const response = await fetch(`${API_BASE_URL}/api/properties`);
         if (!response.ok) throw new Error('Failed to fetch properties');
         
         properties = await response.json();
@@ -22,16 +26,8 @@ async function fetchProperties() {
         console.error("Error loading properties:", error);
         showErrorState();
         
-        // Fallback to localStorage if API fails
-        try {
-            const adminProperties = localStorage.getItem('hogarProperties');
-            if (adminProperties) {
-                properties = JSON.parse(adminProperties);
-                displayProperties(properties);
-            }
-        } catch (localStorageError) {
-            console.error("LocalStorage fallback failed:", localStorageError);
-        }
+        // Remove localStorage fallback since we're using a proper backend
+        // The localStorage fallback was causing confusion between local and remote data
     }
 }
 
@@ -60,6 +56,7 @@ function showErrorState() {
             <div class="icon">⚠️</div>
             <h3>Error Loading Properties</h3>
             <p>Please try refreshing the page or contact support</p>
+            <button onclick="fetchProperties()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
         </div>
     `;
 }
@@ -87,8 +84,9 @@ function displayProperties() {
         
      propertyCard.innerHTML = `
     <div class="property-image-container" onclick="openModal('${property._id}', 0)">
-        <img src="${mainImage.url}" alt="${mainImage.description}" 
+        <img src="${mainImage.thumbnailUrl || mainImage.url}" alt="${mainImage.description}" 
              class="property-image"
+             loading="lazy"
              onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGN0ZBIi8+CjxwYXRoIGQ9Ik0xMjUgNzVMMTUwIDEwMEwxNzUgNzVMMTg3LjUgODcuNUwxNzUgMTAwTDE1MCA3NUwxMjUgMTAwTDExMi41IDg3LjVMMTI1IDc1WiIgZmlsbD0iIzdGOEM4RCIvPgo8dGV4dCB4PSIxNTAiIHk9IjEzMCIgZmlsbD0iIzdGOEM4RCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';">
         ${property.images && property.images.length > 1 ? `<div class="image-counter">1/${property.images.length}</div>` : ''}
     </div>
@@ -158,39 +156,65 @@ function openModal(propertyId, imageIndex) {
 }
 
 function closeModal() {
-    const modal = document.getElementById('imageModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    const modal = document.querySelector('.property-modal');
+    if (modal) {
+        document.body.removeChild(modal);
+        document.body.style.overflow = '';
+    }
+    currentModalProperty = null;
 }
 
-function changeModalImage(direction) {
-    if (!currentModalProperty || !currentModalProperty.images) return;
+function navigateModal(direction) {
+    if (!currentModalProperty) return;
     
-    let newIndex = currentModalIndex + direction;
-    const imagesLength = currentModalProperty.images.length;
+    currentModalIndex += direction;
     
-    if (newIndex < 0) {
-        newIndex = imagesLength - 1;
-    } else if (newIndex >= imagesLength) {
-        newIndex = 0;
+    if (currentModalIndex < 0) {
+        currentModalIndex = currentModalProperty.images.length - 1;
+    } else if (currentModalIndex >= currentModalProperty.images.length) {
+        currentModalIndex = 0;
     }
     
-    openModal(currentModalProperty._id, newIndex);
+    const modal = document.querySelector('.property-modal');
+    if (modal) {
+        const currentImage = currentModalProperty.images[currentModalIndex];
+        modal.querySelector('.modal-image-container img').src = currentImage.url;
+        modal.querySelector('.modal-image-container img').alt = currentImage.description;
+        modal.querySelector('.image-counter').textContent = 
+            `${currentModalIndex + 1}/${currentModalProperty.images.length}`;
+        modal.querySelector('.modal-image-info p').textContent = currentImage.description;
+            
+        modal.querySelectorAll('.modal-thumbnails img').forEach((img, idx) => {
+            img.classList.toggle('active', idx === currentModalIndex);
+        });
+    }
+}
+
+function jumpToModalImage(index) {
+    if (!currentModalProperty || index < 0 || index >= currentModalProperty.images.length) return;
+    
+    currentModalIndex = index;
+    navigateModal(0);
 }
 
 // Keyboard navigation for modal
 document.addEventListener('keydown', (e) => {
-    const modal = document.getElementById('imageModal');
-    if (modal.style.display === 'flex') {
+    if (currentModalProperty) {
         if (e.key === 'Escape') {
             closeModal();
         } else if (e.key === 'ArrowLeft') {
-            changeModalImage(-1);
+            navigateModal(-1);
         } else if (e.key === 'ArrowRight') {
-            changeModalImage(1);
+            navigateModal(1);
         }
     }
 });
+
+// Global functions for onclick handlers
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.navigateModal = navigateModal;
+window.jumpToModalImage = jumpToModalImage;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', fetchProperties);
