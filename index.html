@@ -32,7 +32,6 @@
             padding: 0.6rem 1.5rem;
             font-size: 1rem;
             font-weight: 600;
-            margin-left: 1rem;
             text-decoration: none;
             transition: background 0.3s, color 0.3s, box-shadow 0.3s;
         }
@@ -139,7 +138,6 @@
             color: #fff;
             font-size: 1.2rem;
             cursor: pointer;
-            margin-right: 1rem;
             width: 36px;
             height: 36px;
             border-radius: 6px;
@@ -172,6 +170,36 @@
             visibility: visible;
         }
 
+        /* Mobile Menu Logo */
+        .mobile-logo {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        /* Mobile Login Container */
+        .mobile-login-container {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-login-container .login-btn {
+            width: 100%;
+            text-align: center;
+        }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             .hamburger {
@@ -190,7 +218,7 @@
                 justify-content: flex-start;
                 align-items: flex-start;
                 gap: 0;
-                padding: 80px 20px 20px;
+                padding: 0;
                 transition: right 0.2s ease;
                 z-index: 1000;
                 border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -198,6 +226,11 @@
 
             .nav-links.active {
                 right: 0;
+            }
+
+            .mobile-logo,
+            .mobile-login-container {
+                display: flex;
             }
 
             .nav-links li {
@@ -212,44 +245,44 @@
             .nav-links a {
                 display: block;
                 width: 100%;
-                padding: 16px 0;
+                padding: 16px 20px;
                 font-size: 16px;
                 transition: color 0.2s ease, padding-left 0.2s ease;
             }
 
-             .nav-links a:hover {
-            color: #3498db;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #3498db;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-            .logo{
-                font-size: 1.5rem;
-                margin-bottom: 20px;
+            .nav-links a:hover {
+                color: #3498db;
             }
-            .chn{
+
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #3498db;
+                transition: width 0.3s ease;
+            }
+
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .chn {
                 width: 3rem;
                 height: 3rem;
             }
-             .login-btn:hover {
+            
+            .login-btn:hover {
                 background: linear-gradient(135deg, #2980b9, #3498db);
                 color: #fff;
                 box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
-          }
-
-           
+            }
         }
 
         @media (max-width: 480px) {
@@ -272,19 +305,24 @@
             </a>
             
             <ul class="nav-links">
+                <!-- Mobile Logo -->
+                <li class="mobile-logo">
+                    <svg class="chn" xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
+                </li>
                 <li><a href="#home">Home</a></li>
                 <li><a href="property-details.html">Properties</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <div class="login-container" style="display: flex; align-items: center;">
-                    
+                
+                <!-- Mobile Login Container - Only visible in mobile menu -->
+                <li class="mobile-login-container">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+                    <a href="login.html" class="login-btn">Login</a>
+                </li>
             </ul>
             
-            <div class="login-container" style="display: flex; align-items: center;">
-                <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
-                <a href="login.html" class="login-btn">Login</a>
-            </div>
+            <!-- Removed the login-container from main header -->
             
             <div class="hamburger">
                 <span class="bar"></span>
@@ -294,6 +332,7 @@
         </nav>
     </header>
 
+    <!-- Rest of your HTML content remains the same -->
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
@@ -393,6 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     const mobileOverlay = document.querySelector('.mobile-overlay');
+    
 
     function onScroll() {
         const heroBottom = hero.getBoundingClientRect().bottom;
