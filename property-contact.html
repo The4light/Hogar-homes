@@ -24,7 +24,8 @@
             background: #232526;
             color: #fff;
             display: flex;
-            gap: 1.1rem;
+            align-items: center;
+            justify-content: space-between;
             padding: 15px 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: fixed;
@@ -33,22 +34,137 @@
             right: 0;
             z-index: 1000;
         }
-        
-        .column {
+
+        .header-left {
             display: flex;
-            flex-direction: column;
-        }
-        
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8em;
-            font-weight: 600;
+            align-items: center;
+            gap: 1.1rem;
         }
 
-        .header p {
-            opacity: 0.9;
-            font-size: 0.9em;
-            margin-top: 5px;
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        /* Mobile Menu Modal */
+        .mobile-menu-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-modal.active {
+            display: flex;
+        }
+
+        .mobile-menu-content {
+            background: rgba(35, 37, 38, 0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-content h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-menu-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(52, 152, 219, 0.2);
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .header p {
+                font-size: 0.8em;
+            }
+            
+            .back-to-listings-btn {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.2em;
+            }
+            
+            .header-left svg {
+                width: 30px;
+                height: 35px;
+            }
+            
+            .header-left .column {
+                gap: 2px;
+            }
         }
 
         .container {
@@ -461,6 +577,7 @@
 </head>
 <body>
     <div class="header">
+    <div class="header-left">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
             <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
             <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
@@ -474,8 +591,27 @@
             <h1>Hogar Homes</h1>
             <p style="font-weight: 500;">Property Contact</p>
         </div>
-        <a href="index.html" class="back-to-listings-btn" aria-label="Back to Listings">Back to home</a>
     </div>
+
+    <a href="index.html" class="back-to-listings-btn" aria-label="Back to Listings">Back to home</a>
+    
+    <button class="mobile-menu-toggle" aria-label="Menu">
+        ☰
+    </button>
+    
+    <!-- Mobile Menu Modal -->
+    <div class="mobile-menu-modal" id="mobileMenuModal">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close">×</button>
+            <h2>Menu</h2>
+            <div class="mobile-menu-links">
+                <a href="index.html">Home</a>
+                <a href="property-details.html">Properties</a>
+                <a href="login.html">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="container">
         <!-- Property Header -->
@@ -571,6 +707,84 @@
     </div>
 
  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.header');
+    const hamburger = document.querySelector('.mobile-menu-toggle');
+    const mobileMenuModal = document.getElementById('mobileMenuModal');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-links a');
+    
+    // Check if hero exists (for scroll effect)
+    const hero = document.querySelector('.hero');
+    
+    function onScroll() {
+        if (hero) {
+            const heroBottom = hero.getBoundingClientRect().bottom;
+            if (heroBottom <= 0) {
+                header.classList.add('solid');
+            } else {
+                header.classList.remove('solid');
+            }
+        }
+    }
+
+    function toggleMobileMenuModal() {
+        if (hamburger) hamburger.classList.toggle('active');
+        mobileMenuModal.classList.toggle('active');
+        
+        // Prevent body scroll when modal is open
+        if (mobileMenuModal.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+    
+    function closeMobileMenuModal() {
+        if (hamburger) hamburger.classList.remove('active');
+        mobileMenuModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Toggle mobile menu modal
+    if (hamburger) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleMobileMenuModal();
+        });
+    }
+
+    // Close modal when clicking close button
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', closeMobileMenuModal);
+    }
+
+    // Close modal when clicking outside content
+    if (mobileMenuModal) {
+        mobileMenuModal.addEventListener('click', function(e) {
+            if (e.target === mobileMenuModal) {
+                closeMobileMenuModal();
+            }
+        });
+    }
+
+    // Close modal when clicking menu links
+    mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuModal);
+    });
+
+    // Close menu when pressing escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileMenuModal && mobileMenuModal.classList.contains('active')) {
+            closeMobileMenuModal();
+        }
+    });
+
+    if (hero) {
+        window.addEventListener('scroll', onScroll);
+        onScroll(); // Run on load in case not at top
+    }
+});
         // API Configuration - UPDATE THIS TO YOUR RENDER URL
         const API_BASE_URL = 'https://hogar-homes-2.onrender.com';
         

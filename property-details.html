@@ -16,49 +16,313 @@
             background: #f5f7fa;
             color: #2c3e50;
         }
-
+                /* Header & Navigation */
         .header {
-            background: #232526;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: black;
+            box-shadow: none;
+            backdrop-filter: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .header.solid {
+            background: rgba(35, 37, 38, 0.97) !important;
+            box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+            backdrop-filter: blur(10px);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        
+        .login-btn {
+            background:transparent;
             color: #fff;
-            display:flex;
-            gap: 1.1rem;
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            z-index: 999;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .login-container{
+            display: flex;
+            gap: 1rem;
+        }
+        .login-btn{
+            background: transparent;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.7s, color 0.9s, box-shadow 0.3s;
+        }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            color: black;
+            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+        }
+
+        /* Simple Professional Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background-color 0.2s ease;
+            z-index: 1001;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hamburger .bar {
+            width: 24px;
+            height: 2px;
+            background-color: #fff;
+            margin: 2px 0;
+            transition: all 0.2s ease;
+            border-radius: 1px;
+        }
+
+        .hamburger.active .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .dark-mode-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Mobile Menu */
+        .mobile-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-        .column{
-            display:flex;
-            flex-direction: column;
-        }
-        .header h1 {
-            font-size: 1.8em;
-            font-weight: 600;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
         }
 
-        .header p {
-            opacity: 0.9;
-            font-size: 0.9em;
-            margin-top: 5px;
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
-        .back-to-listings-btn {
-            background: #232526;
+
+        /* Mobile Menu Logo */
+        .mobile-logo {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 18px;
-            font-size: 1em;
-            font-weight: 600;
             text-decoration: none;
-            margin-left: 12px;
-            position: absolute;
-            right: 70px;
-            top: 18px;
-            transition: background 0.2s, color 0.2s;
-            z-index: 1100;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        /* Mobile Login Container */
+        .mobile-login-container {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-login-container .login-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -280px;
+                width: 280px;
+                height: 100vh;
+                background: rgba(35, 37, 38, 0.96);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 0;
+                padding: 0;
+                transition: right 0.2s ease;
+                z-index: 1000;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+           .login-container{
+                display: none;
+            }
+            .mobile-logo,
+            .mobile-login-container {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links li:last-child {
+                border-bottom: none;
+            }
+
+            .nav-links a {
+                display: block;
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 16px;
+                transition: color 0.2s ease, padding-left 0.2s ease;
+            }
+
+            .nav-links a:hover {
+                color: #3498db;
+            }
+
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #3498db;
+                transition: width 0.3s ease;
+            }
+
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .chn {
+                width: 3rem;
+                height: 3rem;
+            }
+            
+            .login-btn:hover {
+                background: linear-gradient(135deg, #2980b9, #3498db);
+                color: #fff;
+                box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                width: 100%;
+                right: -100%;
+            }
         }
 
         .container {            
@@ -391,22 +655,51 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
-            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
-            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
-            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
-            <path d="M10 6h4"></path>
-            <path d="M10 10h4"></path>
-            <path d="M10 14h4"></path>
-            <path d="M10 18h4"></path>
-        </svg>
-        <div class="column">
-            <h1>Hogar Homes </h1>
-            <p style="font-weight: 500;">Property Listings</p>
-        </div>
-        <a href="index.html" class="back-to-listings-btn" aria-label="Back to Home">Back to home</a>
-    </div>
+        <div class="mobile-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+               <svg class="chn" xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg> Hogar Homes
+            </a>
+            
+            <ul class="nav-links">
+                <!-- Mobile Logo -->
+                <li class="mobile-logo">
+                    <svg class="chn" xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
+                </li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property-details.html">Properties</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                
+                <!-- Mobile Login Container - Only visible in mobile menu -->
+                <li class="mobile-login-container">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+                    <a href="login.html" class="login-btn">Login</a>
+                </li>
+
+                 
+            </ul>
+
+                 <li class="login-container">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+                    <a href="login.html" class="login-btn">Login</a>
+             </li>
+
+           
+            
+            <!-- Removed the login-container from main header -->
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
 
     <div class="container">
         <h1 class="page-title">Our Property Listings</h1>
@@ -460,6 +753,79 @@
             </div>
         </div>
     </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.header');
+    const hero = document.querySelector('.hero');
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const mobileOverlay = document.querySelector('.mobile-overlay');
+    
+
+    function onScroll() {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        if (heroBottom <= 0) {
+            header.classList.add('solid');
+        } else {
+            header.classList.remove('solid');
+        }
+    }
+
+    // Toggle mobile menu
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMobileMenu();
+    });
+
+    // Close menu when clicking overlay
+    mobileOverlay.addEventListener('click', function() {
+        closeMobileMenu();
+    });
+
+    // Close menu when clicking nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeMobileMenu();
+        });
+    });
+
+    // Close menu when pressing escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+
+    function toggleMobileMenu() {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        mobileOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (navLinks.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    function closeMobileMenu() {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Run on load in case not at top
+});
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    // You can add more dark mode logic here
+}
+</script>
     <script src="property-details.js"></script>
 </body>
 </html>
