@@ -6,7 +6,7 @@
     <title>Hogar Homes - Premium Real Estate in Lagos</title>
     <link rel="stylesheet" href="index.css">
     <style>
-               /* Header & Navigation */
+        /* Header & Navigation */
         .header {
             position: fixed;
             top: 0;
@@ -59,7 +59,7 @@
             font-weight: 700;
             color: #fff;
             text-decoration: none;
-            z-index: 1001;
+            z-index: 999;
         }
 
         .nav-links {
@@ -95,87 +95,180 @@
             width: 100%;
         }
 
+        /* Simple Professional Hamburger */
         .hamburger {
             display: none;
+            flex-direction: column;
             cursor: pointer;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background-color 0.2s ease;
             z-index: 1001;
         }
 
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
         .hamburger .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
+            width: 24px;
+            height: 2px;
             background-color: #fff;
-            transition: all 0.3s ease;
+            margin: 2px 0;
+            transition: all 0.2s ease;
+            border-radius: 1px;
+        }
+
+        .hamburger.active .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
         .dark-mode-toggle {
-            background: transparent;
-            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
             margin-right: 1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Mobile Menu */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
             .hamburger {
-                display: block;
+                display: flex;
             }
-
-            .hamburger.active .bar:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-
-            .hamburger.active .bar:nth-child(2) {
-                opacity: 0;
-            }
-
-            .hamburger.active .bar:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-
+            
             .nav-links {
                 position: fixed;
                 top: 0;
-                left: -100%;
-                width: 100%;
+                right: -280px;
+                width: 280px;
                 height: 100vh;
-                background: rgba(35, 37, 38, 0.97);
+                background: rgba(35, 37, 38, 0.96);
                 backdrop-filter: blur(10px);
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2rem;
-                transition: left 0.3s ease;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 0;
+                padding: 80px 20px 20px;
+                transition: right 0.2s ease;
                 z-index: 1000;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             .nav-links.active {
-                left: 0;
+                right: 0;
             }
 
-            .login-container {
-                position: fixed;
-                bottom: 2rem;
-                left: 0;
+            .nav-links li {
                 width: 100%;
-                display: flex;
-                justify-content: center;
-                z-index: 1001;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links li:last-child {
+                border-bottom: none;
+            }
+
+            .nav-links a {
+                display: block;
+                width: 100%;
+                padding: 16px 0;
+                font-size: 16px;
+                transition: color 0.2s ease, padding-left 0.2s ease;
+            }
+
+             .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+            .logo{
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            .chn{
+                width: 3rem;
+                height: 3rem;
+            }
+             .login-btn:hover {
+                background: linear-gradient(135deg, #2980b9, #3498db);
+                color: #fff;
+                box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+          }
+
+           
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                width: 100%;
+                right: -100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay"></div>
+
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
             <a href="#" class="logo">
-               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
+               <svg class="chn" xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
             </a>
             
             <ul class="nav-links">
@@ -184,6 +277,8 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <div class="login-container" style="display: flex; align-items: center;">
+                    
             </ul>
             
             <div class="login-container" style="display: flex; align-items: center;">
@@ -220,9 +315,7 @@
 
     <!-- Features Section -->
 
-
     <!-- Property Types -->
-   
 
     <!-- Featured Properties Section -->
         <section id="featured-properties" class="featured-properties">
@@ -293,11 +386,13 @@
         </div>
     </footer>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
     const hero = document.querySelector('.hero');
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const mobileOverlay = document.querySelector('.mobile-overlay');
 
     function onScroll() {
         const heroBottom = hero.getBoundingClientRect().bottom;
@@ -308,58 +403,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Toggle mobile menu
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMobileMenu();
+    });
+
+    // Close menu when clicking overlay
+    mobileOverlay.addEventListener('click', function() {
+        closeMobileMenu();
+    });
+
+    // Close menu when clicking nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeMobileMenu();
+        });
+    });
+
+    // Close menu when pressing escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+
+    function toggleMobileMenu() {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        mobileOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (navLinks.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    function closeMobileMenu() {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
     window.addEventListener('scroll', onScroll);
     onScroll(); // Run on load in case not at top
 });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.header');
-            const hero = document.querySelector('.hero');
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
-            const loginContainer = document.querySelector('.login-container');
-
-            function onScroll() {
-                const heroBottom = hero.getBoundingClientRect().bottom;
-                if (heroBottom <= 0) {
-                    header.classList.add('solid');
-                } else {
-                    header.classList.remove('solid');
-                }
-            }
-
-            // Toggle mobile menu
-            hamburger.addEventListener('click', function() {
-                hamburger.classList.toggle('active');
-                navLinks.classList.toggle('active');
-                
-                // Move login button to bottom of menu when mobile menu is open
-                if (navLinks.classList.contains('active')) {
-                    navLinks.appendChild(loginContainer);
-                } else {
-                    // Move it back to its original position when menu is closed
-                    document.querySelector('.nav-container').appendChild(loginContainer);
-                }
-            });
-
-            // Close mobile menu when clicking a link
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    // Move login button back to original position
-                    document.querySelector('.nav-container').appendChild(loginContainer);
-                });
-            });
-
-            window.addEventListener('scroll', onScroll);
-            onScroll(); // Run on load in case not at top
-        });
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            // You can add more dark mode logic here
-        }
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    // You can add more dark mode logic here
+}
 </script>
 <script src="index.js"></script>
 </body>
