@@ -5,14 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hogar Homes - Premium Real Estate in Lagos</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+               /* Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent !important;
+            box-shadow: none;
+            backdrop-filter: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .header.solid {
+            background: rgba(35, 37, 38, 0.97) !important;
+            box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+            backdrop-filter: blur(10px);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        
+        .login-btn {
+            background:transparent;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-left: 1rem;
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(35, 37, 38, 0.97);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .login-container {
+                position: fixed;
+                bottom: 2rem;
+                left: 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                z-index: 1001;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
             <a href="#" class="logo">
                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>  Hogar Homes
             </a>
+            
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="property-details.html">Properties</a></li>
@@ -20,16 +185,17 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-         <div style="display: flex; align-items: center;">
-            <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
-            <a href="login.html" class="login-btn">Login</a>
-
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            
+            <div class="login-container" style="display: flex; align-items: center;">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+                <a href="login.html" class="login-btn">Login</a>
             </div>
-        </div>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
 
@@ -126,6 +292,8 @@
             </div>
         </div>
     </footer>
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
@@ -143,6 +311,55 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', onScroll);
     onScroll(); // Run on load in case not at top
 });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.header');
+            const hero = document.querySelector('.hero');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const loginContainer = document.querySelector('.login-container');
+
+            function onScroll() {
+                const heroBottom = hero.getBoundingClientRect().bottom;
+                if (heroBottom <= 0) {
+                    header.classList.add('solid');
+                } else {
+                    header.classList.remove('solid');
+                }
+            }
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                
+                // Move login button to bottom of menu when mobile menu is open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.appendChild(loginContainer);
+                } else {
+                    // Move it back to its original position when menu is closed
+                    document.querySelector('.nav-container').appendChild(loginContainer);
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    // Move login button back to original position
+                    document.querySelector('.nav-container').appendChild(loginContainer);
+                });
+            });
+
+            window.addEventListener('scroll', onScroll);
+            onScroll(); // Run on load in case not at top
+        });
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            // You can add more dark mode logic here
+        }
 </script>
 <script src="index.js"></script>
 </body>
